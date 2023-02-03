@@ -5,6 +5,16 @@ but the truth."_
 
 A great tool to ensure your code keeps its promise!
 
+## How to install it
+
+Use your favorite packet manager:
+```shell
+yarn add @coniface/trial
+```
+```shell
+npm i @coniface/trial
+```
+
 ## How to use it?
 
 It could not be simpler than that!
