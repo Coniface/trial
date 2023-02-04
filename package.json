@@ -2,9 +2,16 @@
   "name": "@coniface/trial",
   "description": "A promise helper tool to inline them and reduce indentation-complexity.",
   "version": "1.0.0",
-  "repository": "https://github.com/Coniface/trial",
   "author": "Victor Simart <simart.victor@gmail.com>",
   "license": "MIT",
+  "repository": "https://github.com/Coniface/trial",
+  "bugs": {
+    "url": "https://github.com/Coniface/trial/issues"
+  },
+  "homepage": "https://github.com/Coniface/trial#readme",
+  "files": [
+    "./dist"
+  ],
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -26,5 +33,12 @@
     "ts-jest": "^29.0.5",
     "tsup": "^6.5.0",
     "typescript": "^4.9.5"
-  }
+  },
+  "keywords": [
+    "promise",
+    "async",
+    "await",
+    "typesript",
+    "ts"
+  ]
 }
