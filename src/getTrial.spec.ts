@@ -19,7 +19,7 @@ describe('getTrial', () => {
   });
 
   it('should create a rejecter', async () => {
-    const [promise, _, reject] = getTrial<number>();
+    const [promise, , reject] = getTrial<number>();
     const error = new Error('Test error');
 
     reject(error);

@@ -34,7 +34,7 @@ describe('sleep', () => {
   });
 
   it('should be interruptible and release resources early', async () => {
-    const [promise, _, interrupt] = sleep(5);
+    const [promise, , interrupt] = sleep(5);
     const randomError = new Error('Test error');
     expect(isPending(promise)).toBe(true);
 

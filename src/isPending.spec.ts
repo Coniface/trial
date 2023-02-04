@@ -14,7 +14,7 @@ describe('isPending', () => {
   });
 
   it('should return whether a promise is pending or not if reject', async () => {
-    const [promise, _, reject] = getTrial<void>();
+    const [promise, , reject] = getTrial<void>();
     expect(isPending(promise)).toBe(true);
 
     reject();

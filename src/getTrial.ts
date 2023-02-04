@@ -15,5 +15,6 @@ export const getTrial = <T>(): TrialTuple<T> => {
     resolver = resolve;
     rejecter = reject;
   });
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   return [promise, resolver!, rejecter!];
 };

@@ -6,5 +6,5 @@ import { inspect } from 'util';
  * @external inspect
  */
 export const isPending = <T>(promise: Promise<T>): boolean => {
-    return inspect(promise).includes('pending');
-}
+  return inspect(promise).includes('pending');
+};

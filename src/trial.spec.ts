@@ -24,7 +24,7 @@ describe('trial', () => {
   });
 
   it('should get the error from a rejected promise', async () => {
-    const [promise, _, reject] = getTrial<number>();
+    const [promise, , reject] = getTrial<number>();
     const randomError = new Error('Test error');
 
     reject(randomError);
@@ -53,7 +53,7 @@ describe('trial', () => {
 
   it('should reject if promise rejects before timeout', async () => {
     const clearTimeoutSpy = jest.spyOn(global, 'clearTimeout');
-    const [promise, _, reject] = getTrial<number>();
+    const [promise, , reject] = getTrial<number>();
     const randomError = new Error('Test error');
     expect(isPending(promise)).toBe(true);
 
