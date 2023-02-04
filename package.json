@@ -2,6 +2,7 @@
   "name": "@coniface/trial",
   "description": "A promise helper tool to inline them and reduce indentation-complexity.",
   "version": "1.0.0",
+  "repository": "https://github.com/Coniface/trial",
   "author": "Victor Simart <simart.victor@gmail.com>",
   "license": "MIT",
   "main": "./dist/index.js",
