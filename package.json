@@ -25,7 +25,7 @@
   "scripts": {
     "test": "jest",
     "build": "tsup src/index.ts --format cjs,esm --dts --clean",
-    "prepublishOnly": "build"
+    "prepublishOnly": "npm run build"
   },
   "devDependencies": {
     "@types/jest": "^29.4.0",
