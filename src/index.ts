@@ -1,11 +1,4 @@
-export * from './getTrial';
-export * from './PromiseTimeoutError';
-export * from './trial';
-export {
-  Trial,
-  ResolvedTrial,
-  RejectedTrial,
-  TrialResolver,
-  TrialRejecter,
-  TrialTuple,
-} from './types';
+export * from './getTrial.js';
+export * from './PromiseTimeoutError.js';
+export * from './trial.js';
+export type { Trial, ResolvedTrial, RejectedTrial, TrialResolver, TrialRejecter, TrialTuple } from './types.js';

@@ -1,6 +1,6 @@
-import { Milliseconds, RejectedTrial, ResolvedTrial, Trial } from './types';
-import { PromiseTimeoutError } from './PromiseTimeoutError';
-import { sleep } from './sleep';
+import type { Milliseconds, RejectedTrial, ResolvedTrial, Trial } from './types.js';
+import { PromiseTimeoutError } from './PromiseTimeoutError.js';
+import { sleep } from './sleep.js';
 
 /**
  * Extracts a Promise into a 2-length-tuple.<br>

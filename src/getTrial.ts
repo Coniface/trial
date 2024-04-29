@@ -1,4 +1,4 @@
-import { TrialRejecter, TrialResolver, TrialTuple } from './types';
+import type { TrialRejecter, TrialResolver, TrialTuple } from './types.js';
 
 /**
  * Creates a promise and returns it with its resolver and rejecter.

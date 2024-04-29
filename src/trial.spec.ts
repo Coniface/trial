@@ -1,15 +1,15 @@
-import { getTrial } from './getTrial';
-import { trial } from './trial';
-import { isPending } from './isPending';
-import { PromiseTimeoutError } from './PromiseTimeoutError';
-
-jest.useFakeTimers();
+import * as assert from 'node:assert';
+import { beforeEach, describe, it, mock } from 'node:test';
+import { getTrial } from './getTrial.js';
+import { isPending } from './isPending.js';
+import { PromiseTimeoutError } from './PromiseTimeoutError.js';
+import { trial } from './trial.js';
 
 describe('trial', () => {
-
   beforeEach(() => {
-    jest.clearAllMocks();
-    jest.clearAllTimers();
+    mock.reset();
+    mock.timers.reset();
+    mock.timers.enable({ apis: ['setTimeout'] });
   });
 
   it('should get the value from a resolved promise', async () => {
@@ -19,8 +19,8 @@ describe('trial', () => {
     resolve(randomNumber);
     const [result, error] = await trial(promise);
 
-    expect(result).toBe(randomNumber);
-    expect(error).toBeUndefined();
+    assert.equal(result, randomNumber);
+    assert.equal(error, undefined);
   });
 
   it('should get the error from a rejected promise', async () => {
@@ -30,60 +30,59 @@ describe('trial', () => {
     reject(randomError);
     const [result, error] = await trial(promise);
 
-    expect(result).toBeUndefined();
-    expect(error).toBe(randomError);
+    assert.equal(result, undefined);
+    assert.equal(error, randomError);
   });
 
   it('should resolve if promise resolves before timeout', async () => {
-    const clearTimeoutSpy = jest.spyOn(global, 'clearTimeout');
+    const clearTimeoutSpy = mock.method(global, 'clearTimeout');
+
     const [promise, resolve] = getTrial<number>();
     const randomNumber = 417;
-    expect(isPending(promise)).toBe(true);
+    assert.equal(isPending(promise), true);
 
     const trialTuple = trial(promise, 5);
-    jest.advanceTimersByTime(3);
-    expect(clearTimeoutSpy).toHaveBeenCalledTimes(0);
+    mock.timers.tick(3);
+    assert.equal(clearTimeoutSpy.mock.callCount(), 0);
     resolve(randomNumber);
     const [result, error] = await trialTuple;
-    expect(clearTimeoutSpy).toHaveBeenCalledTimes(1);
+    assert.equal(clearTimeoutSpy.mock.callCount(), 1);
 
-    expect(result).toBe(randomNumber);
-    expect(error).toBeUndefined();
+    assert.equal(result, randomNumber);
+    assert.equal(error, undefined);
   });
 
   it('should reject if promise rejects before timeout', async () => {
-    const clearTimeoutSpy = jest.spyOn(global, 'clearTimeout');
+    const clearTimeoutSpy = mock.method(global, 'clearTimeout');
     const [promise, , reject] = getTrial<number>();
     const randomError = new Error('Test error');
-    expect(isPending(promise)).toBe(true);
+    assert.equal(isPending(promise), true);
 
     const trialTuple = trial(promise, 5);
-    jest.advanceTimersByTime(3);
-    expect(clearTimeoutSpy).toHaveBeenCalledTimes(0);
+    mock.timers.tick(3);
+    assert.equal(clearTimeoutSpy.mock.callCount(), 0);
     reject(randomError);
     const [result, error] = await trialTuple;
-    expect(clearTimeoutSpy).toHaveBeenCalledTimes(1);
+    assert.equal(clearTimeoutSpy.mock.callCount(), 1);
 
-    expect(result).toBeUndefined();
-    expect(error).toBe(randomError);
+    assert.equal(result, undefined);
+    assert.equal(error, randomError);
   });
 
   it('should reject if timeout is reached', async () => {
     const [promise, resolve] = getTrial<number>();
     const randomNumber = 201;
-    expect(isPending(promise)).toBe(true);
+    assert.equal(isPending(promise), true);
 
     const trialTuple = trial(promise, 5);
-    expect(jest.getTimerCount()).toBe(1);
-    jest.advanceTimersToNextTimer();
-    expect(jest.getTimerCount()).toBe(0);
+    mock.timers.runAll();
     const [result, error] = await trialTuple;
 
-    expect(result).toBeUndefined();
-    expect(error instanceof PromiseTimeoutError).toBe(true);
+    assert.equal(result, undefined);
+    assert.equal(error instanceof PromiseTimeoutError, true);
 
     resolve(randomNumber);
-    await expect(promise).resolves.toBe(randomNumber);
+    await assert.doesNotReject(promise);
+    assert.equal(await promise, randomNumber);
   });
-
 });

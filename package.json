@@ -1,7 +1,7 @@
 {
   "name": "@coniface/trial",
   "description": "A promise helper tool to inline them and reduce indentation-complexity.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Victor Simart <simart.victor@gmail.com>",
   "license": "MIT",
   "repository": "https://github.com/Coniface/trial",
@@ -9,34 +9,46 @@
     "url": "https://github.com/Coniface/trial/issues"
   },
   "homepage": "https://github.com/Coniface/trial#readme",
+  "type": "module",
   "files": [
     "./dist"
   ],
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
     }
   },
   "scripts": {
-    "test": "jest",
+    "prepare": "husky",
+    "format": "prettier --write --ignore-unknown \"**/*.{json,ts}\"",
+    "lint": "eslint .",
+    "test": "node --import tsx --test \"**/*.spec.ts\"",
     "build": "tsup src/index.ts --format cjs,esm --dts --clean",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "pnpm run build"
+  },
+  "lint-staged": {
+    "*.ts": "eslint --fix",
+    "**/*": "prettier --write --ignore-unknown"
   },
   "devDependencies": {
-    "@types/jest": "^29.4.0",
-    "@typescript-eslint/eslint-plugin": "^5.50.0",
-    "@typescript-eslint/parser": "^5.50.0",
-    "eslint": "^8.33.0",
-    "jest": "^29.4.1",
-    "ts-jest": "^29.0.5",
-    "tsup": "^6.5.0",
-    "typescript": "^4.9.5"
+    "@eslint/js": "^9.1.1",
+    "@types/node": "^20.12.7",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.2",
+    "prettier": "^3.2.5",
+    "tsup": "^8.0.2",
+    "tsx": "^4.7.3",
+    "typescript": "^5.4.5",
+    "typescript-eslint": "^7.7.1"
   },
+  "packageManager": "pnpm@9.0.6+sha256.0624e30eff866cdeb363b15061bdb7fd9425b17bc1bb42c22f5f4efdea21f6b3",
   "keywords": [
     "promise",
     "async",

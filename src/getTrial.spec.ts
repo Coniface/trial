@@ -1,11 +1,12 @@
-import { getTrial } from './getTrial';
+import * as assert from 'node:assert';
+import { describe, it } from 'node:test';
+import { getTrial } from './getTrial.js';
 
 describe('getTrial', () => {
-
   it('should create a promise', () => {
     const [promise] = getTrial<void>();
 
-    expect(promise instanceof Promise).toBe(true);
+    assert.equal(promise instanceof Promise, true);
   });
 
   it('should create a resolver', async () => {
@@ -14,8 +15,9 @@ describe('getTrial', () => {
 
     resolve(randomNumber);
 
-    expect(typeof resolve).toBe('function');
-    await expect(promise).resolves.toBe(randomNumber);
+    assert.equal(typeof resolve, 'function');
+    await assert.doesNotReject(() => promise);
+    assert.equal(await promise, randomNumber);
   });
 
   it('should create a rejecter', async () => {
@@ -24,8 +26,7 @@ describe('getTrial', () => {
 
     reject(error);
 
-    expect(typeof reject).toBe('function');
-    await expect(promise).rejects.toThrowError(error);
+    assert.equal(typeof reject, 'function');
+    await assert.rejects(() => promise, error);
   });
-
 });

@@ -8,9 +8,15 @@ A great tool to ensure your code keeps its promise!
 ## How to install it
 
 Use your favorite packet manager:
+
+```shell
+pnpm i @coniface/trial
+```
+
 ```shell
 yarn add @coniface/trial
 ```
+
 ```shell
 npm i @coniface/trial
 ```
@@ -29,12 +35,15 @@ const promise = new Promise((resolve, reject) => {
 ```
 
 ```typescript
-import { getTrial } from "@coniface/trial";
+import { getTrial } from '@coniface/trial';
 
 // Inline your promise
 const [promise, resolve, reject] = getTrial<T>();
 console.log(`Let's get to work!`);
 ```
+
+> ℹ Since early 2024, it became part of the Promise API  
+> https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/withResolvers
 
 - Encourages the use of strong typings instead of try/catch blocks
 
@@ -43,15 +52,15 @@ console.log(`Let's get to work!`);
 async function somewhereInYourCode<T>(promise: Promise<T>) {
   try {
     const result = await promise;
-    console.log(`Let's get to work!`)
+    console.log(`Let's get to work!`);
   } catch (error) {
-    console.error('An error occured', error)
+    console.error('An error occured', error);
   }
 }
 ```
 
 ```typescript
-import { trial } from "@coniface/trial";
+import { trial } from '@coniface/trial';
 
 // Use typings and inline your code
 async function somewhereInYourCode<T>(promise: Promise<T>) {
@@ -64,7 +73,7 @@ async function somewhereInYourCode<T>(promise: Promise<T>) {
   }
   // error does not exist in this context
   // data type is T
-  console.log(`Let's get to work!`)
+  console.log(`Let's get to work!`);
 }
 ```
 
