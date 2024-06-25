@@ -1,5 +1,6 @@
 import * as assert from 'node:assert';
 import { beforeEach, describe, it, mock } from 'node:test';
+import { FalsyRejectionError } from './FalsyRejectionError.js';
 import { getTrial } from './getTrial.js';
 import { isPending } from './isPending.js';
 import { PromiseTimeoutError } from './PromiseTimeoutError.js';
@@ -32,6 +33,37 @@ describe('trial', () => {
 
     assert.equal(result, undefined);
     assert.equal(error, randomError);
+  });
+
+  it('should not reject undefined if the promise rejects with undefined', async () => {
+    const [promise, , reject] = getTrial<number>();
+
+    reject();
+    const [result, error] = await trial(promise);
+
+    assert.equal(result, undefined);
+    assert.notEqual(error, undefined);
+  });
+
+  it('should wrap promise rejection if reason is falsy', async () => {
+    const [promise, , reject] = getTrial<number>();
+
+    reject(false);
+    const [result, error] = await trial(promise);
+
+    assert.equal(result, undefined);
+    assert.notEqual(error, false);
+  });
+
+  it('should return FalsyRejectionError if a trialed promise rejects a falsy value', async () => {
+    const [promise, , reject] = getTrial<number>();
+
+    reject(0);
+    const [result, error] = await trial(promise);
+
+    assert.equal(result, undefined);
+    assert.notEqual(error, 0);
+    assert.equal(error instanceof FalsyRejectionError, true);
   });
 
   it('should resolve if promise resolves before timeout', async () => {

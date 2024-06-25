@@ -1,6 +1,7 @@
-import type { Milliseconds, RejectedTrial, ResolvedTrial, Trial } from './types.js';
+import { FalsyRejectionError } from './FalsyRejectionError.js';
 import { PromiseTimeoutError } from './PromiseTimeoutError.js';
 import { sleep } from './sleep.js';
+import type { Milliseconds, RejectedTrial, ResolvedTrial, Trial } from './types.js';
 
 /**
  * Extracts a Promise into a 2-length-tuple.<br>
@@ -27,5 +28,5 @@ export const trial = <T>(promise: Promise<T>, timeout?: Milliseconds): Promise<T
 
   return promise
     .then((value) => [value, undefined] as ResolvedTrial<T>)
-    .catch((reason) => [undefined, reason] as RejectedTrial);
+    .catch((reason) => [undefined, reason ? reason : new FalsyRejectionError(reason)] as RejectedTrial);
 };
